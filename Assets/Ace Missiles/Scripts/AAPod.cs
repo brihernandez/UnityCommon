@@ -7,9 +7,6 @@ public class AAPod : AALauncher
     [Tooltip("Randomized angle at which the missile comes out of the pod at. Higher numbers mean a bigger spread.")]
     public float dispersionAngle = 0.0f;
 
-    [Tooltip("Number of missiles in the missile pod.")]
-    public int magazineSize = 4;
-
     [Tooltip("Number of times the pod can additionally reload after all missiles have been fired from the first salvo or a manual reload is triggered.")]
     public int magazineCount = 1;
 
@@ -17,10 +14,12 @@ public class AAPod : AALauncher
     public float magazineReloadTime = 6.0f;
 
     int tubeCount = 0;
+    int initialMissileCount = 1;
     int initialMagCount = 1;
 
     private void Start()
     {
+        initialMissileCount = missileCount;
         initialMagCount = magazineCount;
     }
 
@@ -42,7 +41,7 @@ public class AAPod : AALauncher
             // Finished reloading.
             if (magazineReloadCooldown <= 0.0f)
             {
-                missileCount = magazineSize;
+                missileCount = initialMissileCount;
                 reloadCooldown = 0.0f;
                 magazineCount--;
             }
@@ -102,7 +101,7 @@ public class AAPod : AALauncher
     {
         reloadCooldown = 0.0f;
         magazineReloadCooldown = 0.0f;
-        missileCount = magazineSize;
+        missileCount = initialMissileCount;
         magazineCount = initialMagCount;
 
         // Missile pods don't actually have anything to worry about in terms of the missile
